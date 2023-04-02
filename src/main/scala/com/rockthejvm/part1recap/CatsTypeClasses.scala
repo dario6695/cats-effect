@@ -81,7 +81,7 @@ object CatsTypeClasses {
   val appErrorEither = ApplicativeError[ErrorOr, String]
   val desirableValue: ErrorOr[Int] = appErrorEither.pure(42)
   val failedValue: ErrorOr[Int] = appErrorEither.raiseError("Something failed")
-  import cats.syntax.applicativeError.* // raiseError extension method
+  import cats.syntax.applicativeError._ // raiseError extension method
   val failedValue_v2: ErrorOr[Int] = "Something failed".raiseError[ErrorOr, Int]
 
   trait MyMonadError[F[_], E] extends MyApplicativeError[F, E] with Monad[F]
@@ -98,7 +98,7 @@ object CatsTypeClasses {
   import cats.Traverse
   val listTraverse = Traverse[List]
   val optionList: Option[List[Int]] = listTraverse.traverse(List(1,2,3))(x => Option(x))
-  import cats.syntax.traverse.*
+  import cats.syntax.traverse._
   val optionList_v2: Option[List[Int]] = List(1,2,3).traverse(x => Option(x))
 
   /*

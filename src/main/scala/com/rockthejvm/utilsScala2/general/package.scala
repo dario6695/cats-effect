@@ -1,7 +1,7 @@
 package com.rockthejvm.utilsScala2
 
 import cats.Functor
-import cats.syntax.functor.*
+import cats.syntax.functor._
 
 import cats.effect.MonadCancel
 import scala.concurrent.duration.FiniteDuration

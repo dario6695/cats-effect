@@ -55,4 +55,35 @@ object IoIntro {
 
   }
 
+
+  // IO: pure, delay, defer
+
+  // delay: The delay method allows us to create an IO effect. We can invoke delay on IO to suspend a side effect operation
+  // val delayedIO: IO[Unit] = IO.delay(println("Creating a delayed effect"))
+
+  // This will suspend the println statement until the IO is executed explicitly.
+  // When we create an IO using the apply method, it delegates the creation to the delay method.
+  // That means IO(“test”) is the same as IO.delay(“test”). Cats Effect also provides a method delayBy
+  // on an existing IO to delay its execution by the given duration:
+
+  //val io = IO(println("Hello World"))
+  //val delayedDurationIO = io.delayBy(3.seconds)
+
+  //defer: The defer method is similar to delay, except that defer will suspend the side effect producing IO in another IO:
+  // val deferIO: IO[Unit] = IO.defer(IO(println("IO in defer")))
+  // This is similar to using the delay method with flatten. Let’s rewrite the above code as:
+  // val deferIO: IO[Unit] = IO.delay(IO(println("IO in defer"))).flatten
+  // The method defer helps to write stack-safe operations using IO
+  //def neverEndingV2(io: IO[Int]): IO[Unit] = {
+  //  io *> IO.defer(neverEndingV2(io))
+  //}
+  // As a result, when we execute this code, it will continuously run forever without
+  // throwing any StackOverflowException. The method defer will ensure that the
+  // recursive call is lazily evaluated and, hence, avoid causing multiple stack allocations.
+
+  // also can be used like this:
+  // _ <- deferred.get // blocks the thread until value becomes available
+  //    _ = println("deferred instance is complete")
+
+
 }
